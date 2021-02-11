@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import LogoSvg from "./logo.svg";
+import * as Db$RescriptOffline from "./Db.bs.js";
 
 import './App.css';
 ;
@@ -9,6 +10,8 @@ import './App.css';
 var logo = LogoSvg;
 
 function App(Props) {
+  var db = Db$RescriptOffline.make(undefined);
+  console.log(db);
   return React.createElement("div", {
               className: "App"
             }, React.createElement("header", {

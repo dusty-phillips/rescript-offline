@@ -4,6 +4,8 @@
 
 @react.component
 let make = () => {
+  let db = Db.make()
+  Js.log(db)
   <div className="App">
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />

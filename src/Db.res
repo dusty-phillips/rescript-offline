@@ -3,3 +3,10 @@
 @module("rxdb") external createRxDatabase: 'whatever = "createRxDatabase"
 
 addRxPlugin(pouchDbAdapter)
+
+let make = () => {
+  createRxDatabase({"name": "recipes", "adapter": "idb"})->Promise.then(db => {
+    Js.log2(`Loaded database`, db)
+    db
+  })
+}

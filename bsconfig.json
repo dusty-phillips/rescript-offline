@@ -23,5 +23,5 @@
     "language": "typescript"
   },
 
-  "bs-dependencies": ["reason-react"]
+  "bs-dependencies": ["reason-react", "@ryyppy/rescript-promise"]
 }

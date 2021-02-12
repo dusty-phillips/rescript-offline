@@ -4,8 +4,22 @@
 
 @react.component
 let make = () => {
-  let db = Db.make()
-  Js.log(db)
+  let (db, setDb) = React.useState(() => None)
+  React.useEffect1(() => {
+    let dbPromise = Db.make()->Promise.map(db => {
+      setDb(_ => Some(db))
+      db
+    })
+
+    Some(
+      () => {
+        let _ = dbPromise->Promise.then(db => db->Db.destroy)
+      },
+    )
+  }, [setDb])
+
+  Js.log2("db is", db)
+
   <div className="App">
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />

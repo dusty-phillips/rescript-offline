@@ -13,9 +13,11 @@ external createRxDatabase: createRxDatabaseOptions => Promise.t<t> = "createRxDa
 
 addRxPlugin(pouchDbAdapter)
 
-let make = () => {
+let make: unit => Promise.t<t> = () => {
   createRxDatabase({name: "recipes", adapter: "idb"})->Promise.then(db => {
     Js.log2(`Loaded database`, db)
     db->Promise.resolve
   })
 }
+
+@send external destroy: t => Promise.t<unit> = "destroy"

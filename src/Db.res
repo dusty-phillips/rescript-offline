@@ -6,14 +6,16 @@ type createRxDatabaseOptions = {
   adapter: string,
 }
 
+type t
+
 @module("rxdb")
-external createRxDatabase: createRxDatabaseOptions => Promise.t<'rxdbThingy> = "createRxDatabase"
+external createRxDatabase: createRxDatabaseOptions => Promise.t<t> = "createRxDatabase"
 
 addRxPlugin(pouchDbAdapter)
 
 let make = () => {
   createRxDatabase({name: "recipes", adapter: "idb"})->Promise.then(db => {
     Js.log2(`Loaded database`, db)
-    db
+    db->Promise.resolve
   })
 }

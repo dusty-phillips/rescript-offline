@@ -11,7 +11,7 @@ function make(param) {
                 adapter: "idb"
               }).then(function (db) {
               console.log("Loaded database", db);
-              return db;
+              return Promise.resolve(db);
             });
 }
 

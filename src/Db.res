@@ -1,5 +1,8 @@
 @module("pouchdb-adapter-idb") external pouchDbAdapter: 'pouch = "default"
 @module("rxdb") external addRxPlugin: 'pouch => unit = "addRxPlugin"
+@module("./Schema.json") external schema: 'schema = "default"
+
+Js.log(schema)
 
 type createRxDatabaseOptions = {
   name: string,

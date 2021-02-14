@@ -1,0 +1,48 @@
+{
+  "recipes": {
+    "title": "recipes schema",
+    "version": 0,
+    "description": "A single recipe",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "primary": true
+      },
+      "title": {
+        "type": "string"
+      },
+      "ingredients": {
+        "type": "string"
+      },
+      "instructions": {
+        "type": "string"
+      },
+      "tags": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "tags": {
+    "title": "tags schema",
+    "version": 0,
+    "description": "Mapping of tags to recipe IDs",
+    "type": "object",
+    "properties": {
+      "tag": {
+        "type": "string",
+        "primary": true
+      },
+      "recipes": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

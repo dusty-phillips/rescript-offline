@@ -6,7 +6,6 @@ import PouchdbAdapterIdb from "pouchdb-adapter-idb";
 
 var schema = SchemaJson;
 
-console.log(schema);
 
 Rxdb.addRxPlugin(PouchdbAdapterIdb);
 

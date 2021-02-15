@@ -1,8 +1,6 @@
 @module("pouchdb-adapter-idb") external pouchDbAdapter: 'pouch = "default"
 @module("rxdb") external addRxPlugin: 'pouch => unit = "addRxPlugin"
-@module("./Schema.json") external schema: 'schema = "default"
-
-Js.log(schema)
+@module("./Schema.json") external schema: {"recipes": 'schema, "tags": 'schema} = "default"
 
 type createRxDatabaseOptions = {
   name: string,
@@ -14,6 +12,7 @@ type t
 @module("rxdb")
 external createRxDatabase: createRxDatabaseOptions => Promise.t<t> = "createRxDatabase"
 
+type addCollectionsOptions<'schema> = {schema: 'schema}
 addRxPlugin(pouchDbAdapter)
 
 let make: unit => Promise.t<t> = () => {

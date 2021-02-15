@@ -22,8 +22,11 @@ addRxPlugin(pouchDbAdapter)
 
 let make: unit => Promise.t<t> = () => {
   createRxDatabase({name: "recipes", adapter: "idb"})->Promise.then(db => {
-    Js.log2(`Loaded database`, db)
-    db->Promise.resolve
+    let options = Js.Dict.empty()
+    options->Js.Dict.set("recipes", {schema: schema["recipes"]})
+    options->Js.Dict.set("tags", {schema: schema["tags"]})
+
+    db->addCollections(options)->Promise.then(_ => Promise.resolve(db))
   })
 }
 

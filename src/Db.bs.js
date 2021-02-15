@@ -13,8 +13,16 @@ function make(param) {
                 name: "recipes",
                 adapter: "idb"
               }).then(function (db) {
-              console.log("Loaded database", db);
-              return Promise.resolve(db);
+              var options = {};
+              options["recipes"] = {
+                schema: schema.recipes
+              };
+              options["tags"] = {
+                schema: schema.tags
+              };
+              return db.addCollections(options).then(function (param) {
+                          return Promise.resolve(db);
+                        });
             });
 }
 

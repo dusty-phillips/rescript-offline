@@ -13,6 +13,11 @@ type t
 external createRxDatabase: createRxDatabaseOptions => Promise.t<t> = "createRxDatabase"
 
 type addCollectionsOptions<'schema> = {schema: 'schema}
+
+@send
+external addCollections: (t, Js.Dict.t<addCollectionsOptions<'schema>>) => Promise.t<'collections> =
+  "addCollections"
+
 addRxPlugin(pouchDbAdapter)
 
 let make: unit => Promise.t<t> = () => {

@@ -6,6 +6,10 @@ import PouchdbAdapterIdb from "pouchdb-adapter-idb";
 
 var schema = SchemaJson;
 
+var RxDocument = {};
+
+var RxCollection = {};
+
 Rxdb.addRxPlugin(PouchdbAdapterIdb);
 
 function make(param) {
@@ -28,6 +32,8 @@ function make(param) {
 
 export {
   schema ,
+  RxDocument ,
+  RxCollection ,
   make ,
   
 }

@@ -2,6 +2,16 @@
 @module("rxdb") external addRxPlugin: 'pouch => unit = "addRxPlugin"
 @module("./Schema.json") external schema: {"recipes": 'schema, "tags": 'schema} = "default"
 
+module RxDocument = {
+  type t<'docType>
+}
+
+module RxCollection = {
+  type t<'docType>
+
+  @send external insert: (t<'docType>, 'doctype) => Promise.t<RxDocument.t<'docType>> = "insert"
+}
+
 type createRxDatabaseOptions = {
   name: string,
   adapter: string,
@@ -15,8 +25,10 @@ external createRxDatabase: createRxDatabaseOptions => Promise.t<t> = "createRxDa
 type addCollectionsOptions<'schema> = {schema: 'schema}
 
 @send
-external addCollections: (t, Js.Dict.t<addCollectionsOptions<'schema>>) => Promise.t<'collections> =
-  "addCollections"
+external addCollections: (
+  t,
+  Js.Dict.t<addCollectionsOptions<'schema>>,
+) => Promise.t<Js.Dict.t<RxCollection.t<'docType>>> = "addCollections"
 
 addRxPlugin(pouchDbAdapter)
 

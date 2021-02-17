@@ -4,12 +4,20 @@
 
 module RxDocument = {
   type t<'docType>
+  @send external recipe: t<Model.recipe> => Model.recipe = "toJSON"
+  @send external taggedRecipes: t<Model.taggedRecipes> => Model.taggedRecipes = "toJSON"
+}
+
+module RxQuery = {
+  type t<'docType>
+  @send external exec: t<'docType> => Promise.t<array<RxDocument.t<'docType>>> = "exec"
 }
 
 module RxCollection = {
   type t<'docType>
 
   @send external insert: (t<'docType>, 'doctype) => Promise.t<RxDocument.t<'docType>> = "insert"
+  @send external find: t<'docType> => RxQuery.t<'docType> = "find"
 }
 
 type createRxDatabaseOptions = {
@@ -46,3 +54,6 @@ let make: unit => Promise.t<t> = () => {
 }
 
 @send external destroy: t => Promise.t<unit> = "destroy"
+
+let find = collection => RxCollection.find(collection)
+let exec = query => RxQuery.exec(query)

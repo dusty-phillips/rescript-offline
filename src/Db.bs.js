@@ -8,6 +8,8 @@ var schema = SchemaJson;
 
 var RxDocument = {};
 
+var RxQuery = {};
+
 var RxCollection = {};
 
 Rxdb.addRxPlugin(PouchdbAdapterIdb);
@@ -30,11 +32,22 @@ function make(param) {
             });
 }
 
+function find(collection) {
+  return collection.find();
+}
+
+function exec(query) {
+  return query.exec();
+}
+
 export {
   schema ,
   RxDocument ,
+  RxQuery ,
   RxCollection ,
   make ,
+  find ,
+  exec ,
   
 }
 /* schema Not a pure module */

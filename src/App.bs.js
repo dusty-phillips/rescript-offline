@@ -3,7 +3,6 @@
 import * as Curry from "bs-platform/lib/es6/curry.mjs";
 import * as React from "react";
 import LogoSvg from "./logo.svg";
-import * as Caml_option from "bs-platform/lib/es6/caml_option.mjs";
 import * as Db$RescriptOffline from "./Db.bs.js";
 
 import './App.css';
@@ -19,7 +18,7 @@ function App(Props) {
   React.useEffect((function () {
           var dbPromise = Db$RescriptOffline.make(undefined).then(function (db) {
                 Curry._1(setDb, (function (param) {
-                        return Caml_option.some(db);
+                        return db;
                       }));
                 return db;
               });

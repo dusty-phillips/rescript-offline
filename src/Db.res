@@ -17,7 +17,10 @@ type createRxDatabaseOptions = {
   adapter: string,
 }
 
-type t
+type t = {
+  recipes: RxCollection.t<Model.recipe>,
+  tags: RxCollection.t<Model.taggedRecipes>,
+}
 
 @module("rxdb")
 external createRxDatabase: createRxDatabaseOptions => Promise.t<t> = "createRxDatabase"

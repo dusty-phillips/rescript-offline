@@ -23,9 +23,17 @@ module RxDocument = {
   @send external taggedRecipes: t<Model.taggedRecipes> => Model.taggedRecipes = "toJSON"
 }
 
+module RxQueryObservable = {
+  type t<'docType>
+
+  @send
+  external subscribe: (t<'docType>, array<RxDocument.t<'docType>> => unit) => unit = "subscribe"
+}
+
 module RxQuery = {
   type t<'docType>
   @send external exec: t<'docType> => Promise.t<array<RxDocument.t<'docType>>> = "exec"
+  @get external observable: t<'docType> => RxQueryObservable.t<'docType> = "$"
 }
 
 module RxCollection = {

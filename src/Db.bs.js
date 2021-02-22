@@ -12,6 +12,8 @@ var RxObservable = {};
 
 var RxDocument = {};
 
+var RxQueryObservable = {};
+
 var RxQuery = {};
 
 var RxCollection = {};
@@ -53,6 +55,7 @@ export {
   RxChangeEvent ,
   RxObservable ,
   RxDocument ,
+  RxQueryObservable ,
   RxQuery ,
   RxCollection ,
   make ,

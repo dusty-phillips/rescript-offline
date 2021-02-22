@@ -3,6 +3,8 @@
 import * as Curry from "bs-platform/lib/es6/curry.mjs";
 import * as React from "react";
 import LogoSvg from "./logo.svg";
+import * as Belt_Array from "bs-platform/lib/es6/belt_Array.mjs";
+import * as Belt_MapString from "bs-platform/lib/es6/belt_MapString.mjs";
 import * as Db$RescriptOffline from "./Db.bs.js";
 
 import './App.css';
@@ -15,10 +17,24 @@ function App(Props) {
         
       });
   var setDb = match[1];
+  var match$1 = React.useState(function () {
+        
+      });
+  var setRecipes = match$1[1];
   React.useEffect((function () {
           var dbPromise = Db$RescriptOffline.make(undefined).then(function (db) {
                 Curry._1(setDb, (function (param) {
                         return db;
+                      }));
+                Db$RescriptOffline.subscribeAll(db.recipes, (function (recipeDocs) {
+                        var newRecipes = Belt_Array.reduce(Belt_Array.map(recipeDocs, (function (prim) {
+                                    return prim.toJSON();
+                                  })), undefined, (function (recipes, recipe) {
+                                return Belt_MapString.set(recipes, recipe.id, recipe);
+                              }));
+                        return Curry._1(setRecipes, (function (_prev) {
+                                      return newRecipes;
+                                    }));
                       }));
                 return db;
               });
@@ -28,8 +44,12 @@ function App(Props) {
                         });
                     
                   });
-        }), [setDb]);
+        }), [
+        setDb,
+        setRecipes
+      ]);
   console.log("db is", match[0]);
+  console.log("recipes is", Belt_MapString.toArray(match$1[0]));
   return React.createElement("div", {
               className: "App"
             }, React.createElement("header", {

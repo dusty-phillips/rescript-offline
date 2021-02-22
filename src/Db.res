@@ -21,6 +21,12 @@ module RxCollection = {
   @send external findAll: t<'docType> => RxQuery.t<'docType> = "find"
 }
 
+module RxObservable = {
+  type t
+
+  @send external subscribe: (t, 'event => unit) => unit = "subscribe"
+}
+
 type createRxDatabaseOptions = {
   name: string,
   adapter: string,
@@ -41,6 +47,8 @@ external addCollections: (
   t,
   Js.Dict.t<addCollectionsOptions<'schema>>,
 ) => Promise.t<Js.Dict.t<RxCollection.t<'docType>>> = "addCollections"
+
+@get external observable: t => RxObservable.t = "$"
 
 addRxPlugin(pouchDbAdapter)
 

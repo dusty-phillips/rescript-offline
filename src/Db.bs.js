@@ -12,6 +12,8 @@ var RxQuery = {};
 
 var RxCollection = {};
 
+var RxObservable = {};
+
 Rxdb.addRxPlugin(PouchdbAdapterIdb);
 
 function make(param) {
@@ -49,6 +51,7 @@ export {
   RxDocument ,
   RxQuery ,
   RxCollection ,
+  RxObservable ,
   make ,
   find ,
   findAll ,

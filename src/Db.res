@@ -6,8 +6,8 @@ module RxChangeEvent = {
   type t<'docType> = {
     documentData: 'docType,
     id: string,
-    operation: string,
-    collectionName: string,
+    operation: [#INSERT | #UPDATE | #REMOVE],
+    collectionName: [#recipes | #tags],
   }
 }
 

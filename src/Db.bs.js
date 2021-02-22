@@ -6,13 +6,15 @@ import PouchdbAdapterIdb from "pouchdb-adapter-idb";
 
 var schema = SchemaJson;
 
+var RxChangeEvent = {};
+
+var RxObservable = {};
+
 var RxDocument = {};
 
 var RxQuery = {};
 
 var RxCollection = {};
-
-var RxObservable = {};
 
 Rxdb.addRxPlugin(PouchdbAdapterIdb);
 
@@ -48,10 +50,11 @@ function exec(query) {
 
 export {
   schema ,
+  RxChangeEvent ,
+  RxObservable ,
   RxDocument ,
   RxQuery ,
   RxCollection ,
-  RxObservable ,
   make ,
   find ,
   findAll ,

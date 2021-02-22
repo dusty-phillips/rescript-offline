@@ -2,6 +2,21 @@
 @module("rxdb") external addRxPlugin: 'pouch => unit = "addRxPlugin"
 @module("./Schema.json") external schema: {"recipes": 'schema, "tags": 'schema} = "default"
 
+module RxChangeEvent = {
+  type t<'docType> = {
+    documentData: 'docType,
+    id: string,
+    operation: string,
+    collectionName: string,
+  }
+}
+
+module RxObservable = {
+  type t<'docType>
+
+  @send external subscribe: (t<'docType>, RxChangeEvent.t<'docType> => unit) => unit = "subscribe"
+}
+
 module RxDocument = {
   type t<'docType>
   @send external recipe: t<Model.recipe> => Model.recipe = "toJSON"
@@ -19,12 +34,11 @@ module RxCollection = {
   @send external insert: (t<'docType>, 'doctype) => Promise.t<RxDocument.t<'docType>> = "insert"
   @send external find: (t<'docType>, option<Js.t<'options>>) => RxQuery.t<'docType> = "find"
   @send external findAll: t<'docType> => RxQuery.t<'docType> = "find"
-}
 
-module RxObservable = {
-  type t
-
-  @send external subscribe: (t, 'event => unit) => unit = "subscribe"
+  @get external observable: t<'docType> => RxObservable.t<'docType> = "$"
+  @get external insertObservable: t<'docType> => RxObservable.t<'docType> = "insert$"
+  @get external updateObservable: t<'docType> => RxObservable.t<'docType> = "update$"
+  @get external removeObservable: t<'docType> => RxObservable.t<'docType> = "remove$"
 }
 
 type createRxDatabaseOptions = {
@@ -48,7 +62,7 @@ external addCollections: (
   Js.Dict.t<addCollectionsOptions<'schema>>,
 ) => Promise.t<Js.Dict.t<RxCollection.t<'docType>>> = "addCollections"
 
-@get external observable: t => RxObservable.t = "$"
+@get external observable: t => RxObservable.t<'docType> = "$"
 
 addRxPlugin(pouchDbAdapter)
 

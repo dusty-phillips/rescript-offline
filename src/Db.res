@@ -17,7 +17,7 @@ module RxCollection = {
   type t<'docType>
 
   @send external insert: (t<'docType>, 'doctype) => Promise.t<RxDocument.t<'docType>> = "insert"
-  @send external find: t<'docType> => RxQuery.t<'docType> = "find"
+  @send external find: (t<'docType>, option<Js.t<'options>>) => RxQuery.t<'docType> = "find"
 }
 
 type createRxDatabaseOptions = {
@@ -55,5 +55,5 @@ let make: unit => Promise.t<t> = () => {
 
 @send external destroy: t => Promise.t<unit> = "destroy"
 
-let find = collection => RxCollection.find(collection)
+let find = (collection, options) => RxCollection.find(collection, options)
 let exec = query => RxQuery.exec(query)

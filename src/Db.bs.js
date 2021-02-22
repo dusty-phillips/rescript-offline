@@ -32,8 +32,8 @@ function make(param) {
             });
 }
 
-function find(collection) {
-  return collection.find();
+function find(collection, options) {
+  return collection.find(options);
 }
 
 function exec(query) {

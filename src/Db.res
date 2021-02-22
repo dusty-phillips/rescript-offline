@@ -89,3 +89,6 @@ let make: unit => Promise.t<t> = () => {
 let find = (collection, options) => RxCollection.find(collection, options)
 let findAll = collection => RxCollection.findAll(collection)
 let exec = query => RxQuery.exec(query)
+let subscribe = (query, subscription) =>
+  query->RxQuery.observable->RxQueryObservable.subscribe(subscription)
+let subscribeAll = (collection, subscription) => collection->findAll->subscribe(subscription)

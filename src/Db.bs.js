@@ -50,6 +50,15 @@ function exec(query) {
   return query.exec();
 }
 
+function subscribe(query, subscription) {
+  query.$.subscribe(subscription);
+  
+}
+
+function subscribeAll(collection, subscription) {
+  return subscribe(collection.find(), subscription);
+}
+
 export {
   schema ,
   RxChangeEvent ,
@@ -62,6 +71,8 @@ export {
   find ,
   findAll ,
   exec ,
+  subscribe ,
+  subscribeAll ,
   
 }
 /* schema Not a pure module */

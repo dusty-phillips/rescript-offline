@@ -36,6 +36,10 @@ function find(collection, options) {
   return collection.find(options);
 }
 
+function findAll(collection) {
+  return collection.find();
+}
+
 function exec(query) {
   return query.exec();
 }
@@ -47,6 +51,7 @@ export {
   RxCollection ,
   make ,
   find ,
+  findAll ,
   exec ,
   
 }

@@ -1,25 +1,20 @@
-%%raw(`import './App.css';`)
-
-@module("./logo.svg") external logo: string = "default"
+open Belt
 
 let addTagCallback = (
   db: Db.t,
-  recipes: Belt.Map.String.t<Model.recipe>,
-  tags: Belt.Map.String.t<array<Model.id>>,
+  recipes: Map.String.t<Model.recipe>,
+  tags: Map.String.t<array<Model.id>>,
   tag: Model.tag,
   id: Model.id,
 ) => {
-  switch recipes->Belt.Map.String.get(id) {
+  switch recipes->Map.String.get(id) {
   | None => Promise.resolve()
   | Some(recipe) => {
       let tagRecord: Model.taggedRecipes = {
         tag: tag,
-        recipes: tags
-        ->Belt.Map.String.get(tag)
-        ->Belt.Option.getWithDefault([])
-        ->Belt.Array.concat([id]),
+        recipes: tags->Map.String.get(tag)->Option.getWithDefault([])->Array.concat([id]),
       }
-      let newRecipe = {...recipe, tags: recipe.tags->Belt.Array.concat([tag])}
+      let newRecipe = {...recipe, tags: recipe.tags->Array.concat([tag])}
 
       Promise.all([
         db.recipes->Db.RxCollection.upsert(newRecipe)->Promise.map(_ => ()),
@@ -32,8 +27,8 @@ let addTagCallback = (
 @react.component
 let make = () => {
   let (dbOption, setDb) = React.useState(() => None)
-  let (recipes, setRecipes) = React.useState(_ => Belt.Map.String.empty)
-  let (tags, setTags) = React.useState(_ => Belt.Map.String.empty)
+  let (recipes, setRecipes) = React.useState(_ => Map.String.empty)
+  let (tags, setTags) = React.useState(_ => Map.String.empty)
   let url = RescriptReactRouter.useUrl()
 
   React.useEffect3(() => {
@@ -43,9 +38,9 @@ let make = () => {
       db.recipes->Db.subscribeAll(recipeDocs => {
         let newRecipes =
           recipeDocs
-          ->Belt.Array.map(Db.RxDocument.recipe)
-          ->Belt.Array.reduce(Belt.Map.String.empty, (recipes, recipe) => {
-            recipes->Belt.Map.String.set(recipe.id, recipe)
+          ->Array.map(Db.RxDocument.recipe)
+          ->Array.reduce(Map.String.empty, (recipes, recipe) => {
+            recipes->Map.String.set(recipe.id, recipe)
           })
         setRecipes(_prev => newRecipes)
       })
@@ -53,9 +48,9 @@ let make = () => {
       db.tags->Db.subscribeAll(tagDocs => {
         let newTags =
           tagDocs
-          ->Belt.Array.map(Db.RxDocument.taggedRecipes)
-          ->Belt.Array.reduce(Belt.Map.String.empty, (tags, taggedRecipes) => {
-            tags->Belt.Map.String.set(taggedRecipes.tag, taggedRecipes.recipes)
+          ->Array.map(Db.RxDocument.taggedRecipes)
+          ->Array.reduce(Map.String.empty, (tags, taggedRecipes) => {
+            tags->Map.String.set(taggedRecipes.tag, taggedRecipes.recipes)
           })
         setTags(_prev => newTags)
       })

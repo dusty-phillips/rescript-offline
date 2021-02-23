@@ -1,5 +1,3 @@
-open Belt
-
 type id = string
 type title = string
 type ingredients = string

@@ -2,7 +2,6 @@
 
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
-import LogoSvg from "./logo.svg";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as Belt_Option from "bs-platform/lib/es6/belt_Option.js";
 import * as Belt_MapString from "bs-platform/lib/es6/belt_MapString.js";
@@ -12,11 +11,6 @@ import * as NavBar$RescriptOffline from "./NavBar.bs.js";
 import * as AllTags$RescriptOffline from "./AllTags.bs.js";
 import * as ViewRecipe$RescriptOffline from "./ViewRecipe.bs.js";
 import * as AddRecipeForm$RescriptOffline from "./AddRecipeForm.bs.js";
-
-import './App.css';
-;
-
-var logo = LogoSvg;
 
 function addTagCallback(db, recipes, tags, tag, id) {
   var recipe = Belt_MapString.get(recipes, id);
@@ -171,9 +165,8 @@ function App(Props) {
 var make = App;
 
 export {
-  logo ,
   addTagCallback ,
   make ,
   
 }
-/*  Not a pure module */
+/* react Not a pure module */

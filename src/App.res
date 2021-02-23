@@ -47,7 +47,10 @@ let make = () => {
   | None => <div> {React.string("Loading your database...")} </div>
   | Some(db) => {
       let component = switch url.path {
-      | list{"recipes", "add"} => <AddRecipeForm dispatch />
+      | list{"recipes", "add"} =>
+        <AddRecipeForm
+          addRecipe={recipe => db.recipes->Db.RxCollection.insert(recipe)->Promise.map(_ => ())}
+        />
       | list{"recipes", title} => <div> {<ViewRecipe state title dispatch />} </div>
       | list{"tags"} => <AllTags tags={state.tags} />
       | list{} => <div> {React.string("Home page")} </div>

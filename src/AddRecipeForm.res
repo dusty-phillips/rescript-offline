@@ -1,3 +1,5 @@
+@module("uuid") external uuid: unit => string = "v4"
+
 module Styles = {
   open CssJs
   let longEntry = style(. [
@@ -9,7 +11,7 @@ module Styles = {
 }
 
 @react.component
-let make = (~dispatch: Store.action => unit) => {
+let make = (~addRecipe: Model.recipe => Promise.t<unit>) => {
   let (title, setTitle) = React.useState(() => "")
   let (ingredients, setIngredients) = React.useState(() => "")
   let (instructions, setInstructions) = React.useState(() => "")
@@ -53,10 +55,16 @@ let make = (~dispatch: Store.action => unit) => {
     </div>
     <button
       onClick={_ => {
-        dispatch(
-          Store.AddRecipe({title: title, ingredients: ingredients, instructions: instructions}),
-        )
-        RescriptReactRouter.push(`/recipes/${title}`)
+        let id = uuid()
+        addRecipe({
+          id: id,
+          title: title,
+          ingredients: ingredients,
+          instructions: instructions,
+          tags: [],
+        })
+        ->Promise.map(_ => RescriptReactRouter.push(`/recipes/${id}`))
+        ->ignore
       }}>
       {React.string("Add!")}
     </button>

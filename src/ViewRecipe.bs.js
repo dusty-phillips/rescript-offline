@@ -10,7 +10,9 @@ function displayRecipe(recipe, addTag) {
   return React.createElement("div", {
               className: CardStyles$RescriptOffline.card
             }, React.createElement("h2", undefined, recipe.title), React.createElement("div", undefined, React.createElement("h3", undefined, "Ingredients"), React.createElement("div", undefined, recipe.ingredients)), React.createElement("div", undefined, React.createElement("h3", undefined, "Instructions"), React.createElement("div", undefined, recipe.instructions)), React.createElement("div", undefined, React.createElement("h3", undefined, "Tags"), React.createElement("div", undefined, Belt_Array.map(recipe.tags, (function (tag) {
-                            return React.createElement("div", undefined, tag);
+                            return React.createElement("div", {
+                                        key: tag
+                                      }, tag);
                           }))), React.createElement(AddTag$RescriptOffline.make, {
                       recipeId: recipe.id,
                       addTag: addTag

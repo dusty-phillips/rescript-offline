@@ -11,7 +11,9 @@ let displayRecipe = (recipe: Model.recipe, addTag: (Model.tag, Model.id) => Prom
     </div>
     <div>
       <h3> {React.string("Tags")} </h3>
-      <div> {recipe.tags->Array.map(tag => <div> {React.string(tag)} </div>)->React.array} </div>
+      <div>
+        {recipe.tags->Array.map(tag => <div key={tag}> {React.string(tag)} </div>)->React.array}
+      </div>
       <AddTag addTag recipeId={recipe.id} />
     </div>
   </div>

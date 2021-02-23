@@ -52,7 +52,7 @@ let make = () => {
           addRecipe={recipe => db.recipes->Db.RxCollection.insert(recipe)->Promise.map(_ => ())}
         />
       | list{"recipes", title} => <div> {<ViewRecipe state title dispatch />} </div>
-      | list{"tags"} => <AllTags tags={state.tags} />
+      | list{"tags"} => <AllTags tags recipes />
       | list{} => <div> {React.string("Home page")} </div>
       | _ => <div> {React.string("Route not found")} </div>
       }

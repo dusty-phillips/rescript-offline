@@ -2,6 +2,33 @@
 
 @module("./logo.svg") external logo: string = "default"
 
+let addTagCallback = (
+  db: Db.t,
+  recipes: Belt.Map.String.t<Model.recipe>,
+  tags: Belt.Map.String.t<array<Model.id>>,
+  tag: Model.tag,
+  id: Model.id,
+) => {
+  switch recipes->Belt.Map.String.get(id) {
+  | None => Promise.resolve()
+  | Some(recipe) => {
+      let tagRecord: Model.taggedRecipes = {
+        tag: tag,
+        recipes: tags
+        ->Belt.Map.String.get(tag)
+        ->Belt.Option.getWithDefault([])
+        ->Belt.Array.concat([id]),
+      }
+      let newRecipe = {...recipe, tags: recipe.tags->Belt.Array.concat([tag])}
+
+      Promise.all([
+        db.recipes->Db.RxCollection.upsert(newRecipe)->Promise.map(_ => ()),
+        db.tags->Db.RxCollection.upsert(tagRecord)->Promise.map(_ => ()),
+      ])->Promise.map(_ => ())
+    }
+  }
+}
+
 @react.component
 let make = () => {
   let (dbOption, setDb) = React.useState(() => None)

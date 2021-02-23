@@ -6,8 +6,9 @@
 let make = () => {
   let (db, setDb) = React.useState(() => None)
   let (recipes, setRecipes) = React.useState(_ => Belt.Map.String.empty)
+  let (tags, setTags) = React.useState(_ => Belt.Map.String.empty)
 
-  React.useEffect2(() => {
+  React.useEffect3(() => {
     let dbPromise = Db.make()->Promise.map(db => {
       setDb(_ => Some(db))
 
@@ -21,6 +22,16 @@ let make = () => {
         setRecipes(_prev => newRecipes)
       })
 
+      db.tags->Db.subscribeAll(tagDocs => {
+        let newTags =
+          tagDocs
+          ->Belt.Array.map(Db.RxDocument.taggedRecipes)
+          ->Belt.Array.reduce(Belt.Map.String.empty, (tags, taggedRecipes) => {
+            tags->Belt.Map.String.set(taggedRecipes.tag, taggedRecipes.recipes)
+          })
+        setTags(_prev => newTags)
+      })
+
       db
     })
 
@@ -29,10 +40,11 @@ let make = () => {
         let _ = dbPromise->Promise.then(db => db->Db.destroy)
       },
     )
-  }, (setDb, setRecipes))
+  }, (setDb, setRecipes, setTags))
 
   Js.log2("db is", db)
   Js.log2("recipes is", recipes->Belt.Map.String.toArray)
+  Js.log2("tags is", tags->Belt.Map.String.toArray)
 
   <div className="App">
     <header className="App-header">

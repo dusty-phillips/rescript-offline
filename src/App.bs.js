@@ -21,6 +21,10 @@ function App(Props) {
         
       });
   var setRecipes = match$1[1];
+  var match$2 = React.useState(function () {
+        
+      });
+  var setTags = match$2[1];
   React.useEffect((function () {
           var dbPromise = Db$RescriptOffline.make(undefined).then(function (db) {
                 Curry._1(setDb, (function (param) {
@@ -36,6 +40,16 @@ function App(Props) {
                                       return newRecipes;
                                     }));
                       }));
+                Db$RescriptOffline.subscribeAll(db.tags, (function (tagDocs) {
+                        var newTags = Belt_Array.reduce(Belt_Array.map(tagDocs, (function (prim) {
+                                    return prim.toJSON();
+                                  })), undefined, (function (tags, taggedRecipes) {
+                                return Belt_MapString.set(tags, taggedRecipes.tag, taggedRecipes.recipes);
+                              }));
+                        return Curry._1(setTags, (function (_prev) {
+                                      return newTags;
+                                    }));
+                      }));
                 return db;
               });
           return (function (param) {
@@ -46,10 +60,12 @@ function App(Props) {
                   });
         }), [
         setDb,
-        setRecipes
+        setRecipes,
+        setTags
       ]);
   console.log("db is", match[0]);
   console.log("recipes is", Belt_MapString.toArray(match$1[0]));
+  console.log("tags is", Belt_MapString.toArray(match$2[0]));
   return React.createElement("div", {
               className: "App"
             }, React.createElement("header", {

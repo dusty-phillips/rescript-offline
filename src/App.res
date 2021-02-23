@@ -4,9 +4,10 @@
 
 @react.component
 let make = () => {
-  let (db, setDb) = React.useState(() => None)
+  let (dbOption, setDb) = React.useState(() => None)
   let (recipes, setRecipes) = React.useState(_ => Belt.Map.String.empty)
   let (tags, setTags) = React.useState(_ => Belt.Map.String.empty)
+  let url = RescriptReactRouter.useUrl()
 
   React.useEffect3(() => {
     let dbPromise = Db.make()->Promise.map(db => {
@@ -42,21 +43,18 @@ let make = () => {
     )
   }, (setDb, setRecipes, setTags))
 
-  Js.log2("db is", db)
-  Js.log2("recipes is", recipes->Belt.Map.String.toArray)
-  Js.log2("tags is", tags->Belt.Map.String.toArray)
+  switch dbOption {
+  | None => <div> {React.string("Loading your database...")} </div>
+  | Some(db) => {
+      let component = switch url.path {
+      | list{"recipes", "add"} => <AddRecipeForm dispatch />
+      | list{"recipes", title} => <div> {<ViewRecipe state title dispatch />} </div>
+      | list{"tags"} => <AllTags tags={state.tags} />
+      | list{} => <div> {React.string("Home page")} </div>
+      | _ => <div> {React.string("Route not found")} </div>
+      }
 
-  <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        {React.string("Edit ")}
-        <code> {React.string("src/App.js")} </code>
-        {React.string(" and save to reload.")}
-      </p>
-      <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-        {React.string("Learn React")}
-      </a>
-    </header>
-  </div>
+      <div> <NavBar /> {component} </div>
+    }
+  }
 }

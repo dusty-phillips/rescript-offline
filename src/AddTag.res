@@ -1,5 +1,5 @@
 @react.component
-let make = (~recipeTitle: string, ~dispatch: Store.action => unit) => {
+let make = (~recipeId: Model.id, ~addTag: (Model.tag, Model.id) => Promise.t<unit>) => {
   let (tag, setTag) = React.useState(() => "")
   <div>
     <input
@@ -12,7 +12,7 @@ let make = (~recipeTitle: string, ~dispatch: Store.action => unit) => {
     />
     <button
       onClick={_ => {
-        dispatch(Store.AddTag({recipeTitle: recipeTitle, tag: tag}))
+        addTag(tag, recipeId)->ignore
       }}>
       {React.string("Add Tag!")}
     </button>

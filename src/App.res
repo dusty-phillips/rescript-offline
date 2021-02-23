@@ -51,7 +51,12 @@ let make = () => {
         <AddRecipeForm
           addRecipe={recipe => db.recipes->Db.RxCollection.insert(recipe)->Promise.map(_ => ())}
         />
-      | list{"recipes", title} => <div> {<ViewRecipe state title dispatch />} </div>
+      | list{"recipes", id} =>
+        <div>
+          {<ViewRecipe
+            recipes id addTag={(tag, id) => addTagCallback(db, recipes, tags, tag, id)}
+          />}
+        </div>
       | list{"tags"} => <AllTags tags recipes />
       | list{} => <div> {React.string("Home page")} </div>
       | _ => <div> {React.string("Route not found")} </div>

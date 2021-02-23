@@ -40,6 +40,7 @@ module RxCollection = {
   type t<'docType>
 
   @send external insert: (t<'docType>, 'doctype) => Promise.t<RxDocument.t<'docType>> = "insert"
+  @send external upsert: (t<'docType>, 'doctype) => Promise.t<RxDocument.t<'docType>> = "upsert"
   @send external find: (t<'docType>, option<Js.t<'options>>) => RxQuery.t<'docType> = "find"
   @send external findAll: t<'docType> => RxQuery.t<'docType> = "find"
 

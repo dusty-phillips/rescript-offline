@@ -24,6 +24,9 @@
         "items": {
           "type": "string"
         }
+      },
+      "updatedAt": {
+        "type": "number"
       }
     }
   },
@@ -43,6 +46,9 @@
         "items": {
           "type": "string"
         }
+      },
+      "updatedAt": {
+        "type": "number"
       }
     }
   }

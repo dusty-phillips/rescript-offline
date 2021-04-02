@@ -62,6 +62,7 @@ let make = (~addRecipe: Model.recipe => Promise.t<unit>) => {
           ingredients: ingredients,
           instructions: instructions,
           tags: [],
+          updatedAt: Js.Date.now(),
         })
         ->Promise.map(_ => RescriptReactRouter.push(`/recipes/${id}`))
         ->ignore

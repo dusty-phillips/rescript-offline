@@ -13,6 +13,7 @@ let addTagCallback = (
       let tagRecord: Model.taggedRecipes = {
         tag: tag,
         recipes: tags->Map.String.get(tag)->Option.getWithDefault([])->Array.concat([id]),
+        updatedAt: Js.Date.now(),
       }
       let newRecipe = {...recipe, tags: recipe.tags->Array.concat([tag])}
 

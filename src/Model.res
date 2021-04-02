@@ -10,9 +10,11 @@ type recipe = {
   ingredients: ingredients,
   instructions: instructions,
   tags: array<tag>,
+  updatedAt: float,
 }
 
 type taggedRecipes = {
   tag: tag,
   recipes: array<id>,
+  updatedAt: float,
 }

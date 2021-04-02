@@ -18,21 +18,25 @@ function addTagCallback(db, recipes, tags, tag, id) {
     return Promise.resolve(undefined);
   }
   var tagRecord_recipes = Belt_Array.concat(Belt_Option.getWithDefault(Belt_MapString.get(tags, tag), []), [id]);
+  var tagRecord_updatedAt = Date.now();
   var tagRecord = {
     tag: tag,
-    recipes: tagRecord_recipes
+    recipes: tagRecord_recipes,
+    updatedAt: tagRecord_updatedAt
   };
   var newRecipe_id = recipe.id;
   var newRecipe_title = recipe.title;
   var newRecipe_ingredients = recipe.ingredients;
   var newRecipe_instructions = recipe.instructions;
   var newRecipe_tags = Belt_Array.concat(recipe.tags, [tag]);
+  var newRecipe_updatedAt = recipe.updatedAt;
   var newRecipe = {
     id: newRecipe_id,
     title: newRecipe_title,
     ingredients: newRecipe_ingredients,
     instructions: newRecipe_instructions,
-    tags: newRecipe_tags
+    tags: newRecipe_tags,
+    updatedAt: newRecipe_updatedAt
   };
   return Promise.all([
                 db.recipes.upsert(newRecipe).then(function (param) {

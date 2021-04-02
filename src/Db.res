@@ -74,6 +74,7 @@ external addCollections: (
 @get external observable: t => RxObservable.t<'docType> = "$"
 
 addRxPlugin(pouchDbAdapter)
+addRxPlugin(Sync.graphqlReplicationPlugin)
 
 let make: unit => Promise.t<t> = () => {
   createRxDatabase({name: "recipes", adapter: "idb"})->Promise.then(db => {

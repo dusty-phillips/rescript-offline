@@ -3,6 +3,7 @@
 import * as Rxdb from "rxdb";
 import SchemaJson from "./Schema.json";
 import PouchdbAdapterIdb from "pouchdb-adapter-idb";
+import * as ReplicationGraphql from "rxdb/plugins/replication-graphql";
 
 var schema = SchemaJson;
 
@@ -19,6 +20,8 @@ var RxQuery = {};
 var RxCollection = {};
 
 Rxdb.addRxPlugin(PouchdbAdapterIdb);
+
+Rxdb.addRxPlugin(ReplicationGraphql.RxDBReplicationGraphQLPlugin);
 
 function make(param) {
   return Rxdb.createRxDatabase({

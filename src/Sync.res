@@ -1,5 +1,6 @@
 @module("rxdb/plugins/replication-graphql")
 external graphqlReplicationPlugin: 'plugin = "RxDBReplicationGraphQLPlugin"
+
 type queryParams = {
   query: string,
   variables: {"id": Model.id, "minUpdatedAt": float, "limit": int},
@@ -7,3 +8,36 @@ type queryParams = {
 
 type queryBuilder<'document> = option<'document> => queryParams
 
+let recipeQueryBuilder: queryBuilder<Model.recipe> = recipeOption => {
+  let query = `
+    query Query($id: String!, $minUpdatedAt: Float!, $limit: Int!) {
+      recipeRxDbFeed(id: $id, minUpdatedAt: $minUpdatedAt, limit: $limit) {
+        id
+        title
+        ingredients
+        instructions
+        deleted
+        tags
+        updatedAt
+      }
+    }
+  `
+
+  let variables = switch recipeOption {
+  | Some(recipe) => {
+      "id": recipe.id,
+      "minUpdatedAt": recipe.updatedAt,
+      "limit": 5,
+    }
+  | None => {
+      "id": "",
+      "minUpdatedAt": 0.0,
+      "limit": 5,
+    }
+  }
+
+  {
+    query: query,
+    variables: variables,
+  }
+}

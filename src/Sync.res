@@ -6,7 +6,7 @@ type queryParams = {
   variables: {"id": Model.id, "minUpdatedAt": float, "limit": int},
 }
 
-type queryBuilder<'document> = option<'document> => queryParams
+type queryBuilder<'document> = Js.Nullable.t<'document> => queryParams
 
 type pullOptions<'document> = {queryBuilder: queryBuilder<'document>}
 
@@ -32,7 +32,7 @@ let recipeQueryBuilder: queryBuilder<Model.recipe> = recipeOption => {
     }
   `
 
-  let variables = switch recipeOption {
+  let variables = switch recipeOption->Js.Nullable.toOption {
   | Some(recipe) => {
       "id": recipe.id,
       "minUpdatedAt": recipe.updatedAt,

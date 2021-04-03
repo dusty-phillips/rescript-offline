@@ -2,13 +2,13 @@
 
 
 function recipeQueryBuilder(recipeOption) {
-  var variables = recipeOption !== undefined ? ({
-        id: recipeOption.id,
-        minUpdatedAt: recipeOption.updatedAt,
-        limit: 5
-      }) : ({
+  var variables = (recipeOption == null) ? ({
         id: "",
         minUpdatedAt: 0.0,
+        limit: 5
+      }) : ({
+        id: recipeOption.id,
+        minUpdatedAt: recipeOption.updatedAt,
         limit: 5
       });
   return {

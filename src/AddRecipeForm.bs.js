@@ -80,17 +80,14 @@ function AddRecipeForm(Props) {
                         }))), React.createElement("button", {
                   onClick: (function (param) {
                       var id = Uuid.v4();
-                      var recipe_tags = [];
-                      var recipe_updatedAt = Date.now();
-                      var recipe = {
-                        id: id,
-                        title: title,
-                        ingredients: ingredients,
-                        instructions: instructions,
-                        tags: recipe_tags,
-                        updatedAt: recipe_updatedAt
-                      };
-                      Curry._1(addRecipe, recipe).then(function (param) {
+                      Curry._1(addRecipe, {
+                              id: id,
+                              title: title,
+                              ingredients: ingredients,
+                              instructions: instructions,
+                              tags: [],
+                              updatedAt: Date.now()
+                            }).then(function (param) {
                             return RescriptReactRouter.push("/recipes/" + id);
                           });
                       

@@ -81,6 +81,14 @@ function App(Props) {
                       deletedFlag: "deleted",
                       live: true
                     });
+                db.tags.syncGraphQL({
+                      url: "/graphql",
+                      pull: {
+                        queryBuilder: Sync$RescriptOffline.taggedRecipesQueryBuilder
+                      },
+                      deletedFlag: "deleted",
+                      live: true
+                    });
                 Db$RescriptOffline.subscribeAll(db.recipes, (function (recipeDocs) {
                         var newRecipes = Belt_Array.reduce(Belt_Array.map(recipeDocs, (function (prim) {
                                     return prim.toJSON();

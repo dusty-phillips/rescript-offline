@@ -43,6 +43,13 @@ let make = () => {
         live: true,
       })
 
+      db.tags->Db.RxCollection.syncGraphQL({
+        url: "/graphql",
+        pull: {queryBuilder: Sync.taggedRecipesQueryBuilder},
+        deletedFlag: "deleted",
+        live: true,
+      })
+
       db.recipes->Db.subscribeAll(recipeDocs => {
         let newRecipes =
           recipeDocs

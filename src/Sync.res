@@ -50,3 +50,34 @@ let recipeQueryBuilder: queryBuilder<Model.recipe> = recipeOption => {
     variables: variables,
   }
 }
+
+let taggedRecipesQueryBuilder: queryBuilder<Model.taggedRecipes> = recipeOption => {
+  let query = `
+    query Query($id: String!, $minUpdatedAt: Float!, $limit: Int!) {
+      taggedRecipesRxDbFeed(tag: $id, minUpdatedAt: $minUpdatedAt, limit: $limit) {
+        tag
+        recipes
+        updatedAt
+        deleted
+      }
+    }
+  `
+
+  let variables = switch recipeOption->Js.Nullable.toOption {
+  | Some(taggedRecipes) => {
+      "id": taggedRecipes.tag,
+      "minUpdatedAt": taggedRecipes.updatedAt,
+      "limit": 5,
+    }
+  | None => {
+      "id": "",
+      "minUpdatedAt": 0.0,
+      "limit": 5,
+    }
+  }
+
+  {
+    query: query,
+    variables: variables,
+  }
+}

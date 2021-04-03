@@ -17,8 +17,25 @@ function recipeQueryBuilder(recipeOption) {
         };
 }
 
+function taggedRecipesQueryBuilder(recipeOption) {
+  var variables = (recipeOption == null) ? ({
+        id: "",
+        minUpdatedAt: 0.0,
+        limit: 5
+      }) : ({
+        id: recipeOption.tag,
+        minUpdatedAt: recipeOption.updatedAt,
+        limit: 5
+      });
+  return {
+          query: "\n    query Query($id: String!, $minUpdatedAt: Float!, $limit: Int!) {\n      taggedRecipesRxDbFeed(tag: $id, minUpdatedAt: $minUpdatedAt, limit: $limit) {\n        tag\n        recipes\n        updatedAt\n        deleted\n      }\n    }\n  ",
+          variables: variables
+        };
+}
+
 export {
   recipeQueryBuilder ,
+  taggedRecipesQueryBuilder ,
   
 }
 /* No side effect */

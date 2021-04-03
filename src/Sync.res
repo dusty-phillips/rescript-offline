@@ -8,6 +8,15 @@ type queryParams = {
 
 type queryBuilder<'document> = option<'document> => queryParams
 
+type pullOptions<'document> = {queryBuilder: queryBuilder<'document>}
+
+type syncGraphQLOptions<'document> = {
+  url: string,
+  pull: pullOptions<'document>,
+  deletedFlag: string,
+  live: bool,
+}
+
 let recipeQueryBuilder: queryBuilder<Model.recipe> = recipeOption => {
   let query = `
     query Query($id: String!, $minUpdatedAt: Float!, $limit: Int!) {

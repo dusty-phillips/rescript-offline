@@ -43,6 +43,8 @@ module RxCollection = {
   @send external upsert: (t<'docType>, 'doctype) => Promise.t<RxDocument.t<'docType>> = "upsert"
   @send external find: (t<'docType>, option<Js.t<'options>>) => RxQuery.t<'docType> = "find"
   @send external findAll: t<'docType> => RxQuery.t<'docType> = "find"
+  @send
+  external syncGraphQL: (t<'docType>, Sync.syncGraphQLOptions<'docType>) => unit = "syncGraphQL"
 
   @get external observable: t<'docType> => RxObservable.t<'docType> = "$"
   @get external insertObservable: t<'docType> => RxObservable.t<'docType> = "insert$"

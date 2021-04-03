@@ -36,6 +36,13 @@ let make = () => {
     let dbPromise = Db.make()->Promise.map(db => {
       setDb(_ => Some(db))
 
+      db.recipes->Db.RxCollection.syncGraphQL({
+        url: "/graphql",
+        pull: {queryBuilder: Sync.recipeQueryBuilder},
+        deletedFlag: "deleted",
+        live: true,
+      })
+
       db.recipes->Db.subscribeAll(recipeDocs => {
         let newRecipes =
           recipeDocs

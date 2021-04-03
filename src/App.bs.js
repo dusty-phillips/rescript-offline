@@ -7,6 +7,7 @@ import * as Belt_Option from "bs-platform/lib/es6/belt_Option.js";
 import * as Belt_MapString from "bs-platform/lib/es6/belt_MapString.js";
 import * as Db$RescriptOffline from "./Db.bs.js";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.bs.js";
+import * as Sync$RescriptOffline from "./Sync.bs.js";
 import * as NavBar$RescriptOffline from "./NavBar.bs.js";
 import * as AllTags$RescriptOffline from "./AllTags.bs.js";
 import * as ViewRecipe$RescriptOffline from "./ViewRecipe.bs.js";
@@ -72,6 +73,14 @@ function App(Props) {
                 Curry._1(setDb, (function (param) {
                         return db;
                       }));
+                db.recipes.syncGraphQL({
+                      url: "/graphql",
+                      pull: {
+                        queryBuilder: Sync$RescriptOffline.recipeQueryBuilder
+                      },
+                      deletedFlag: "deleted",
+                      live: true
+                    });
                 Db$RescriptOffline.subscribeAll(db.recipes, (function (recipeDocs) {
                         var newRecipes = Belt_Array.reduce(Belt_Array.map(recipeDocs, (function (prim) {
                                     return prim.toJSON();
